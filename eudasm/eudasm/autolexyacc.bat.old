@@ -1,0 +1,15 @@
+@echo off
+
+echo Bison
+
+bison -d -o eudc.tab.cpp eudc.y
+
+echo *
+echo ==================================================
+echo *
+
+echo Flex
+
+flex -olex.yy.cpp eudc.l
+
+pause
