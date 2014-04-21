@@ -1,0 +1,209 @@
+Language design?
+
+
+- No pointer, no reference, no alising problem.
+- Multiple return value.
+
+
+// Function declaration
+fdecl swap(a, b) retcnt 2;
+
+
+// Function definition
+fdef swap(a, b) retcnt 2 {
+	return b, a;
+}
+
+
+
+Supported operators : Originated from C
+
+Operators are trimmed down from C by following standard:
+
+1. Expensive operations such as multiplication, division are trimmed down. They are
+ given by standard library, and they complete the calculation in reasonable time. But
+ they consumes over 50 triggers, and expensive operation should be explicitly noted as
+ expensive, such as having different syntax from primitive operators.
+
+2. Since bitwise operators such as &, |, ^ are very expensive, I also deleted them. To
+ be consistent, I also deleted another bitwise operator ~, which is in fact very trivial.
+ (0xffffffff - number = ~number)
+ 
+3. Since language lacks support of pointer, we deleted operators related to pointers.
+ Array are preserved, since they are very hard to replicate with normal variables.
+ 
+4. No struct. No member operation.
+
+5. Array won't cause any alising problem, I hope, since
+ - Array are fucking.
+
+	Prec	Op        Desc
+	1		()	     Function call
+			[]       Array subscription.
+	2		+    -	 Unary plus and minus
+			!        Logical NOT
+	3		+    -	 Addition and subtraction
+	4		<    <=	 For relational operators < and ¡Â respectively
+			>    >=	 For relational operators > and ¡Ã respectively
+			==   !=	 For relational = and ¡Á respectively
+	5		&&	     Logical AND
+			||	     Logical OR
+	6		=	     Direct assignment
+			+=   -=  Complex assignment
+
+
+-------
+
+[test.eudc]
+
+fdef swap(var a, var b) pure {
+	return b, a;
+}
+
+
+fdef test2() {
+	vdef a = 10, b = 20, c = 30, d;
+	a, b = swap(a, b);
+	d = a + c;
+	if(d <= b) {
+		DisplayText("d <= b");
+	}
+}
+
+
+fdef bubblesort(array arr, var n) {
+	vdef i, j;
+	for(i = 0 ; i < n ; i++) {
+		for(j = 1 ; j < n; j++) {
+			if(arr[j] < arr[j - 1]) {
+				arr[j], arr[j - 1] = arr[j - 1], arr[j]
+			}
+		}
+	}
+}
+
+
+
+fdecl_statement
+	: FDECL name LPAREN fdecl_varlist RPAREN SEMICOLON
+	;
+
+
+fdef_statement
+	: FDEF name LPAREN fdecl_varlist RPAREN STATEMENT
+	;
+
+
+fdecl_varlist
+	: fdecl_varlist_nonempty
+	| /* NULL */
+	;
+
+
+fdecl_varlist_nonempty
+	: fdecl_varlist_nonempty COMMA fdecl_varlist_single
+	| fdecl_varlist_single
+	;
+
+
+fdecl_varlist_single
+	: VAR name
+	| ARR name
+	;
+
+
+vdef_statmenet
+	: VDEF vdef_varlist SEMICOLON
+	;
+
+
+vdef_varlist
+	: vdef_varlist COMMA vdef_varlist_single
+	| vdef_varlist_single
+	;
+
+
+vdef_varlist_single
+	: name
+	| name LBRAKET expr RBRAKET
+	;
+
+
+if_statement
+	: IF LPAREN expr RPAREN statement
+	| IF LPAREN expr RPAREN statement ELSE statement
+	;
+
+
+for_statement
+	: FOR LPAREN forexpr COMMA forexpr COMMA forexpr LPAREN statement
+	;
+
+
+forexpr
+	: expr
+	| /* NULL */
+	;
+
+
+while_statement
+	: WHILE LPAREN expr RPAREN statement
+	;
+
+
+return_statement
+	: RETURN return_exprlist
+	;
+
+
+return_exprlist
+	: return_exprlist_nonempty
+	| /* NULL */
+	;
+
+
+return_exprlist_nonempty
+	: return_exprlist_nonempty COMMA expr
+	| expr
+	;
+
+continue_statement
+	: CONTINUE SEMICOLON
+	;
+
+break_statement
+	: BREAK SEMICOLON
+	;
+
+expr_statement
+	: expr SEMICOLON
+	;
+
+statement
+	: fdecl_statement
+	| fdef_statement
+	| vdef_statement
+	| if_statement
+	| for_statement
+	| while_statement
+	| continue_statement
+	| break_statement
+	| expr_statement
+	;
+// expr
+
+/*
+	Prec	Op        Desc
+	1		()	     Function call
+			[]       Array subscription.
+	2		+    -	 Unary plus and minus
+			!        Logical NOT
+	3		+    -	 Addition and subtraction
+	4		<    <=	 For relational operators < and ¡Â respectively
+			>    >=	 For relational operators > and ¡Ã respectively
+			==   !=	 For relational = and ¡Á respectively
+	5		&&	     Logical AND
+			||	     Logical OR
+	6		=	     Direct assignment
+			+=   -=  Complex assignment
+*/

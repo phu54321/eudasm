@@ -14,6 +14,7 @@
     <ProjectGuid>{C09E6A61-9D74-4D24-95B1-10C6870CF920}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>eudasm</RootNamespace>
+    <ProjectName>eudc</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -41,11 +42,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files (x86)\GnuWin32\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\GnuWin32\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files (x86)\GnuWin32\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\GnuWin32\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -78,31 +79,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ast.h" />
     <ClInclude Include="eudc.tab.hpp" />
+    <ClInclude Include="stringview.h" />
+    <ClInclude Include="symbol.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ast.cpp" />
+    <ClCompile Include="eudc.tab.cpp" />
+    <ClCompile Include="lex.yy.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="symbol.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="eudc.l">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">flex -olex.yy.cpp  eudc.l</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">flex -olex.yy.cpp eudc.l</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">lex.yy.cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">flex -olex.yy.cpp  eudc.l</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">lex.yy.cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">eudc.tab.hpp</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">eudc.tab.hpp</AdditionalInputs>
     </CustomBuild>
     <CustomBuild Include="eudc.y">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">bison -oeudc.tab.cpp -d -v eudc.y</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">eudc.tab.cpp;eudc.tab.hpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">bison -oeudc.tab.cpp eudc.y</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">eudc.tab.cpp;eudc.tab.hpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">eudc.tab.hpp;eudc.tab.cpp</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="eudc.tab.cpp" />
-    <ClCompile Include="lex.yy.cpp" />
-    <ClCompile Include="main.cpp" />
+    <Text Include="design.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

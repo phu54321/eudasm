@@ -32,6 +32,20 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+/* "%code requires" blocks.  */
+
+/* Line 1676 of yacc.c  */
+#line 1 "eudc.y"
+
+#include "ast.h"
+typedef node YYSTYPE;
+#define YYSTYPE_IS_DECLARED 1
+#define YY_NO_UNISTD_H
+
+
+
+/* Line 1676 of yacc.c  */
+#line 49 "eudc.tab.hpp"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -39,38 +53,36 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     IDENTIFIER = 258,
+     NAME = 258,
      INTEGER = 259,
      STRING = 260,
-     VARTYPE = 261,
-     FUNC = 262,
-     FOR = 263,
-     WHILE = 264,
-     IF = 265,
-     ELSE = 266,
-     CONTINUE = 267,
-     BREAK = 268,
-     RETURN = 269,
-     MONIC_INC = 270,
-     MONIC_DEC = 271,
-     BINARY_LSF = 272,
-     BINARY_RSF = 273,
-     BINARY_LE = 274,
-     BINARY_GE = 275,
-     BINARY_EQ = 276,
-     BINARY_NE = 277,
-     BINARY_LOGICALAND = 278,
-     BINARY_LOGICALOR = 279,
-     ADDASSIGN = 280,
-     SUBASSIGN = 281,
-     MULASSIGN = 282,
-     DIVASSIGN = 283,
-     RMDASSIGN = 284,
-     ANDASSIGN = 285,
-     ORASSIGN = 286,
-     XORASSIGN = 287,
-     LSFASSIGN = 288,
-     RSFASSIGN = 289
+     LE = 261,
+     GE = 262,
+     EQ = 263,
+     NE = 264,
+     AND = 265,
+     OR = 266,
+     ADDMOV = 267,
+     SUBMOV = 268,
+     FDEF = 269,
+     FDECL = 270,
+     VDEF = 271,
+     VAR = 272,
+     ARRAY = 273,
+     FOR = 274,
+     WHILE = 275,
+     IF = 276,
+     ELSE = 277,
+     CONTINUE = 278,
+     BREAK = 279,
+     RETURN = 280,
+     YIELD = 281,
+     CONCAT = 282,
+     DECR = 283,
+     INCR = 284,
+     MONIC = 285,
+     FUNCTIONCALL = 286,
+     ARRSUBSCRIPT = 287
    };
 #endif
 

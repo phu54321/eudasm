@@ -1,0 +1,12 @@
+
+fdef bubblesort(array arr, var n) {
+	vdef i, j;
+	for(i = 0 ; i < n ; i++) {
+		for(j = 1 ; j < n; j++) {
+			if(arr[j] < arr[j - 1]) {
+				arr[j], arr[j - 1] = arr[j - 1], arr[j];
+			}
+		}
+	}
+}
+

@@ -1,0 +1,241 @@
+  2 ( name bubblesort )
+  2 ( name arr )
+  2 ( array ( name arr ) )
+  2 ( fdecl_varlist ( array ( name arr ) ) )
+  2 ( name n )
+  2 ( var ( name n ) )
+  2 ( fdecl_varlist ( fdecl_varlist ( array ( name arr ) ) ) ( var ( name n ) ) )
+  3 ( name i )
+  3 ( vdef_var ( name i ) )
+  3 ( vdef_varlist ( vdef_var ( name i ) ) )
+  3 ( name j )
+  3 ( vdef_var ( name j ) )
+  3 ( vdef_varlist ( vdef_varlist ( vdef_var ( name i ) ) ) ( vdef_var ( name j ) ) )
+  3 ( vdef_statement ( vdef_varlist ( vdef_varlist ( vdef_var ( name i ) ) ) ( vdef_var ( name j ) ) ) )
+  4 ( name i )
+  4 ( integer 0 )
+  4 ( = ( name i ) ( integer 0 ) )
+  4 ( name i )
+  4 ( name n )
+  4 ( < ( name i ) ( name n ) )
+  4 ( name i )
+  4 ( ++ ( name i ) )
+  5 ( name j )
+  5 ( integer 1 )
+  5 ( = ( name j ) ( integer 1 ) )
+  5 ( name j )
+  5 ( name n )
+  5 ( < ( name j ) ( name n ) )
+  5 ( name j )
+  5 ( ++ ( name j ) )
+  6 ( name arr )
+  6 ( name j )
+  6 ( [] ( name arr ) ( name j ) )
+  6 ( name arr )
+  6 ( name j )
+  6 ( integer 1 )
+  6 ( - ( name j ) ( integer 1 ) )
+  6 ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) )
+  6 ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) )
+  7 ( name arr )
+  7 ( name j )
+  7 ( [] ( name arr ) ( name j ) )
+  7 ( name arr )
+  7 ( name j )
+  7 ( integer 1 )
+  7 ( - ( name j ) ( integer 1 ) )
+  7 ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) )
+  7 ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) )
+  7 ( name arr )
+  7 ( name j )
+  7 ( integer 1 )
+  7 ( - ( name j ) ( integer 1 ) )
+  7 ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) )
+  7 ( name arr )
+  7 ( name j )
+  7 ( [] ( name arr ) ( name j ) )
+  7 ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) )
+  7 ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) )
+  7 ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) )
+  9 ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) )
+  9 ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) )
+  9 ( statement_list ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) ) ( ++ ( name j ) ) )
+  9 ( while_statement ( < ( name j ) ( name n ) ) ( statement_list ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) ) ( ++ ( name j ) ) ) )
+  9 ( statement_list ( = ( name j ) ( integer 1 ) ) ( while_statement ( < ( name j ) ( name n ) ) ( statement_list ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) ) ( ++ ( name j ) ) ) ) )
+ 10 ( statement_list ( statement_list ( = ( name j ) ( integer 1 ) ) ( while_statement ( < ( name j ) ( name n ) ) ( statement_list ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) ) ( ++ ( name j ) ) ) ) ) ( ++ ( name i ) ) )
+ 10 ( while_statement ( < ( name i ) ( name n ) ) ( statement_list ( statement_list ( = ( name j ) ( integer 1 ) ) ( while_statement ( < ( name j ) ( name n ) ) ( statement_list ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) ) ( ++ ( name j ) ) ) ) ) ( ++ ( name i ) ) ) )
+ 10 ( statement_list ( = ( name i ) ( integer 0 ) ) ( while_statement ( < ( name i ) ( name n ) ) ( statement_list ( statement_list ( = ( name j ) ( integer 1 ) ) ( while_statement ( < ( name j ) ( name n ) ) ( statement_list ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) ) ( ++ ( name j ) ) ) ) ) ( ++ ( name i ) ) ) ) )
+ 10 ( statement_list ( vdef_statement ( vdef_varlist ( vdef_varlist ( vdef_var ( name i ) ) ) ( vdef_var ( name j ) ) ) ) ( statement_list ( = ( name i ) ( integer 0 ) ) ( while_statement ( < ( name i ) ( name n ) ) ( statement_list ( statement_list ( = ( name j ) ( integer 1 ) ) ( while_statement ( < ( name j ) ( name n ) ) ( statement_list ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) ) ( ++ ( name j ) ) ) ) ) ( ++ ( name i ) ) ) ) ) )
+ 11 ( fbody ( fdecl_varlist ( fdecl_varlist ( array ( name arr ) ) ) ( var ( name n ) ) ) ( statement_list ( vdef_statement ( vdef_varlist ( vdef_varlist ( vdef_var ( name i ) ) ) ( vdef_var ( name j ) ) ) ) ( statement_list ( = ( name i ) ( integer 0 ) ) ( while_statement ( < ( name i ) ( name n ) ) ( statement_list ( statement_list ( = ( name j ) ( integer 1 ) ) ( while_statement ( < ( name j ) ( name n ) ) ( statement_list ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) ) ( ++ ( name j ) ) ) ) ) ( ++ ( name i ) ) ) ) ) ) )
+ 11 ( fdef_statement ( name bubblesort ) ( fbody ( fdecl_varlist ( fdecl_varlist ( array ( name arr ) ) ) ( var ( name n ) ) ) ( statement_list ( vdef_statement ( vdef_varlist ( vdef_varlist ( vdef_var ( name i ) ) ) ( vdef_var ( name j ) ) ) ) ( statement_list ( = ( name i ) ( integer 0 ) ) ( while_statement ( < ( name i ) ( name n ) ) ( statement_list ( statement_list ( = ( name j ) ( integer 1 ) ) ( while_statement ( < ( name j ) ( name n ) ) ( statement_list ( if_statement ( ifbody ( < ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( expr_statement ( = ( , ( [] ( name arr ) ( name j ) ) ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ) ( , ( [] ( name arr ) ( - ( name j ) ( integer 1 ) ) ) ( [] ( name arr ) ( name j ) ) ) ) ) ) ) ( ++ ( name j ) ) ) ) ) ( ++ ( name i ) ) ) ) ) ) ) )
+
+Final output:
+  "fdef_statement"
+    [LEFT]
+      "name"
+        "bubblesort"
+    [RIGHT]
+      "fbody"
+        [LEFT]
+          "fdecl_varlist"
+            [LEFT]
+              "fdecl_varlist"
+                [LEFT]
+                  "array"
+                    [LEFT]
+                      "name"
+                        "arr"
+            [RIGHT]
+              "var"
+                [LEFT]
+                  "name"
+                    "n"
+        [RIGHT]
+          "statement_list"
+            [LEFT]
+              "vdef_statement"
+                [LEFT]
+                  "vdef_varlist"
+                    [LEFT]
+                      "vdef_varlist"
+                        [LEFT]
+                          "vdef_var"
+                            [LEFT]
+                              "name"
+                                "i"
+                    [RIGHT]
+                      "vdef_var"
+                        [LEFT]
+                          "name"
+                            "j"
+            [RIGHT]
+              "statement_list"
+                [LEFT]
+                  "="
+                    [LEFT]
+                      "name"
+                        "i"
+                    [RIGHT]
+                      "integer"
+                        "0"
+                [RIGHT]
+                  "while_statement"
+                    [LEFT]
+                      "<"
+                        [LEFT]
+                          "name"
+                            "i"
+                        [RIGHT]
+                          "name"
+                            "n"
+                    [RIGHT]
+                      "statement_list"
+                        [LEFT]
+                          "statement_list"
+                            [LEFT]
+                              "="
+                                [LEFT]
+                                  "name"
+                                    "j"
+                                [RIGHT]
+                                  "integer"
+                                    "1"
+                            [RIGHT]
+                              "while_statement"
+                                [LEFT]
+                                  "<"
+                                    [LEFT]
+                                      "name"
+                                        "j"
+                                    [RIGHT]
+                                      "name"
+                                        "n"
+                                [RIGHT]
+                                  "statement_list"
+                                    [LEFT]
+                                      "if_statement"
+                                        [LEFT]
+                                          "ifbody"
+                                            [LEFT]
+                                              "<"
+                                                [LEFT]
+                                                  "[]"
+                                                    [LEFT]
+                                                      "name"
+                                                        "arr"
+                                                    [RIGHT]
+                                                      "name"
+                                                        "j"
+                                                [RIGHT]
+                                                  "[]"
+                                                    [LEFT]
+                                                      "name"
+                                                        "arr"
+                                                    [RIGHT]
+                                                      "-"
+                                                        [LEFT]
+                                                          "name"
+                                                            "j"
+                                                        [RIGHT]
+                                                          "integer"
+                                                            "1"
+                                            [RIGHT]
+                                              "expr_statement"
+                                                [LEFT]
+                                                  "="
+                                                    [LEFT]
+                                                      ","
+                                                        [LEFT]
+                                                          "[]"
+                                                            [LEFT]
+                                                              "name"
+                                                                "arr"
+                                                            [RIGHT]
+                                                              "name"
+                                                                "j"
+                                                        [RIGHT]
+                                                          "[]"
+                                                            [LEFT]
+                                                              "name"
+                                                                "arr"
+                                                            [RIGHT]
+                                                              "-"
+                                                                [LEFT]
+                                                                  "name"
+                                                                    "j"
+                                                                [RIGHT]
+                                                                  "integer"
+                                                                    "1"
+                                                    [RIGHT]
+                                                      ","
+                                                        [LEFT]
+                                                          "[]"
+                                                            [LEFT]
+                                                              "name"
+                                                                "arr"
+                                                            [RIGHT]
+                                                              "-"
+                                                                [LEFT]
+                                                                  "name"
+                                                                    "j"
+                                                                [RIGHT]
+                                                                  "integer"
+                                                                    "1"
+                                                        [RIGHT]
+                                                          "[]"
+                                                            [LEFT]
+                                                              "name"
+                                                                "arr"
+                                                            [RIGHT]
+                                                              "name"
+                                                                "j"
+                                    [RIGHT]
+                                      "++"
+                                        [LEFT]
+                                          "name"
+                                            "j"
+                        [RIGHT]
+                          "++"
+                            [LEFT]
+                              "name"
+                                "i"
