@@ -1,0 +1,109 @@
+[initial code]
+sdef vec2d {
+	var x, y;
+}
+
+var dot(vec2d& a, vec2d b) {
+	return mul(a.x, b.x) + mul(a.y, b.y);
+}
+
+void main() {
+	Vec2d a, b;
+	a.x = 10;
+	a.y = 20;
+	b.x = 30;
+	b.y = 10;
+	var c = dot(a, b);
+	write(epd(0x5993D4), c);
+}
+
+
+->
+
+[AST (lisp-like form)]
+
+(sdef vec2d var var)
+(fdef dot var (list ((reftype vec2d) a) (vec2d b))
+	(return (+ 
+		(call mul (list (getattr a x) (getattr b x)))
+		(call mul (list (getattr a y) (getattr b y)))
+	) )
+)
+
+
+(fdef main void (list)
+	(vardef vec2d a b)
+	(setattr a x 10)
+	(setattr a y 10)
+	(setattr b x 30)
+	(setattr b y 10)
+	(vardef var c)
+	(assign c (call dot (list a b)))
+	(call write (epd 0x5993D4) c)
+)
+
+
+
+->
+
+[Unpack nested expression]
+
+(sdef vec2d var var)
+(fdef dot var (list (ref vec2d) vec2d)
+	(vardef var t1 t2 t3 t4 t5 t6 t7)
+	(assign t1 (getattr a x))
+	(assign t2 (getattr b x))
+	(assign t3 (call mul (list t1 t2)))
+	(assign t4 (getattr a y))
+	(assign t5 (getattr b y))
+	(assign t6 (call mul (list t4 t5)))
+	(assign t7 (add t3 t6))
+	(return t7)
+)
+
+(fdef main void (list)
+	(vardef vec2d a b)
+	(setattr a x 10)
+	(setattr a y 10)
+	(setattr b x 30)
+	(setattr b y 10)
+	(vardef var c)
+	(assign c (call dot a b))
+	(call write (epd 0x5993D4) c)
+
+->
+
+[Convert to SSA form] -> already in SSA form
+
+->
+
+[eudasm code]
+ - Do memory analysis
+
+fdef dot 9
+	dot:$4 = global:$[dot:$1 + 0]
+	mul:$1 = dot:$1
+	mul:$2 = dot:$4
+	call mul
+	dot:$5 = mul:$0
+	dot:$6 = global:$[dot:$1 + 1]
+	call mul(dot:$6, dot:$3)
+	dot:$7 = mul:$0
+	dot:$8 = add $5, $7
+	dot:$0 = dot:$0
+	ret
+
+fdef main
+	main:$0 = 10
+	main:$1 = 20
+	main:$2 = 30
+	main:$3 = 10
+	dot:$1 = ptr main:$1
+	dot:$2 = main:$2
+	dot:$3 = main:$3
+	call dot
+	main:$4 = dot:$0
+	write:$0 = 15388
+	write:$1 = main:$4
+	call write
+	ret

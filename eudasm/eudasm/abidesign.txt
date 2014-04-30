@@ -1,41 +1,13 @@
 Language design?
 
 
-- No pointer, no reference, no alising problem.
-- Multiple return value.
-
-
-// Function declaration
-fdecl swap(a, b) retcnt 2;
-
-
-// Function definition
-fdef swap(a, b) retcnt 2 {
-	return b, a;
-}
-
-
-
-Supported operators : Originated from C
+\Supported operators : Originated from C
 
 Operators are trimmed down from C by following standard:
 
-1. Expensive operations such as multiplication, division are trimmed down. They are
- given by standard library, and they complete the calculation in reasonable time. But
- they consumes over 50 triggers, and expensive operation should be explicitly noted as
- expensive, such as having different syntax from primitive operators.
-
-2. Since bitwise operators such as &, |, ^ are very expensive, I also deleted them. To
- be consistent, I also deleted another bitwise operator ~, which is in fact very trivial.
- (0xffffffff - number = ~number)
- 
-3. Since language lacks support of pointer, we deleted operators related to pointers.
- Array are preserved, since they are very hard to replicate with normal variables.
- 
-4. No struct. No member operation.
-
-5. Array won't cause any alising problem, I hope, since
- - Array are fucking.
+1. Expensive operations such as multiplication and bitwise operation are excluded.
+2. To keep consistency, I also excluded '<<' and '~' operator.
+3. Language is java-like : Structs are passed by reference, everything else is passed by value.
 
 	Prec	Op        Desc
 	1		()	     Function call

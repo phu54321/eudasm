@@ -14,7 +14,7 @@
     <ProjectGuid>{C09E6A61-9D74-4D24-95B1-10C6870CF920}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>eudasm</RootNamespace>
-    <ProjectName>eudc</ProjectName>
+    <ProjectName>eudc-parser</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -81,15 +81,19 @@
   <ItemGroup>
     <ClInclude Include="ast.h" />
     <ClInclude Include="eudc.tab.hpp" />
-    <ClInclude Include="stringview.h" />
-    <ClInclude Include="symbol.hpp" />
+    <ClInclude Include="gc.h" />
+    <ClInclude Include="murmurhash3.h" />
+    <ClInclude Include="operation.h" />
+    <ClInclude Include="type.h" />
+    <ClInclude Include="variable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ast.cpp" />
     <ClCompile Include="eudc.tab.cpp" />
     <ClCompile Include="lex.yy.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="symbol.cpp" />
+    <ClCompile Include="murmurhash3.cpp" />
+    <ClCompile Include="type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="eudc.l">
@@ -105,7 +109,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="design.txt" />
+    <Text Include="abidesign.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

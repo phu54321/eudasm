@@ -1,52 +1,61 @@
-%code requires {
-#include "ast.h"
-typedef node YYSTYPE;
-#define YYSTYPE_IS_DECLARED 1
-#define YY_NO_UNISTD_H
-}
-
 %{
 #include <stdio.h>
-#include "ast.h"
+#include "parsertype.h"
 
 void yyerror(char *);
 int yylex(void);
 extern int yylineno;
 
-void CompileAST(node ast);
-
+extern AST* mainast;
 %}
 
-%token NAME INTEGER STRING
+%union {
+	ParsedName* name;
+	ParsedNumber* num;
+	ParsedString* string;
+}
+
+%token <name> NAME 
+%token <num> INTEGER
+%token <string> STRING
+
 %token LE GE EQ NE AND OR ADDMOV SUBMOV
 %token FDEF FDECL VDEF VAR ARRAY
 %token FOR WHILE IF ELSE CONTINUE BREAK
 %token RETURN YIELD
 
 %right '=' ADDMOV SUBMOV
-%left CONCAT
 %left OR
 %left AND
 %left '<' LE '>' GE EQ NE
 %left '+' '-'
-%left INCR DECR
 %left MONIC
 %left ARRSUBSCRIPT FUNCTIONCALL
 
 %start program
+
+%destructor { delete $$; }
+
 %%
 
 program
-	: statement	{
-		CompileAST($1);
-		delete $1;
-		$$ = NULL;
+	: block	{
+		mainast = ast;
 	}
 
-statement
+block_list
+	: block_list block
+	: /* NULL */
+	;
+
+block
 	: fdecl_statement	{ $$ = $1; }
 	| fdef_statement	{ $$ = $1; }
 	| vdef_statement	{ $$ = $1; }
+	;
+
+statement
+	: vdef_statement	{ $$ = $1; }
 	| if_statement	{ $$ = $1; }
 	| for_statement	{ $$ = $1; }
 	| while_statement	{ $$ = $1; }
@@ -83,10 +92,15 @@ statement_list
 				+=   -=  Complex assignment
 	*/
 
-exprlist
+<string> stringlist
+	: stringlist STRING	{ $$ = makenode("stringlist", $1, $2); }
+	| STRING	{ $$ = $1; }
+	;
+
+<name> exprlist
 	: NAME	{ $$ = $1; }
 	| INTEGER	{ $$ = $1; }
-	| STRING	{ $$ = $1; }
+	| stringlist	{ $$ = $1; }
 
 	| exprlist ',' exprlist     %prec CONCAT	{ $$ = makenode(",", $1, $3); }
 
@@ -126,7 +140,7 @@ exprlist
 	// code structure.
 fdecl_statement
 	: FDECL NAME '(' fdecl_varlist ')' ';'	{
-		node fbody = makenode("fbody", $4, NULL);
+		AST* fbody = makenode("fbody", $4, NULL);
 		$$ = makenode("fdecl_statement", $2, fbody);
 	}
 	;
@@ -134,7 +148,7 @@ fdecl_statement
 
 fdef_statement
 	: FDEF NAME '(' fdecl_varlist ')' statement	{
-		node fbody = makenode("fbody", $4, $6);
+		AST* fbody = makenode("fbody", $4, $6);
 		$$ = makenode("fdef_statement", $2, fbody);
 	}
 	;
@@ -181,11 +195,11 @@ vdef_varlist_single
 
 if_statement
 	: IF '(' exprlist ')' statement	{
-		node ifbody = makenode("ifbody", $3, $5);
+		AST* ifbody = makenode("ifbody", $3, $5);
 		$$ = makenode("if_statement", ifbody, NULL);
 	}
 	| IF '(' exprlist ')' statement ELSE statement	{
-		node ifbody = makenode("ifbody", $3, $5);
+		AST* ifbody = makenode("ifbody", $3, $5);
 		$$ = makenode("if_statement", ifbody, $7);
 	}
 	;
@@ -205,8 +219,8 @@ for_statement
 		}
 		*/
 
-		node internal = makenode("statement_list", $9, $7);
-		node whilenode = makenode("while_statement", $5, internal);
+		AST* internal = makenode("statement_list", $9, $7);
+		AST* whilenode = makenode("while_statement", $5, internal);
 		$$ = makenode("statement_list", $3, whilenode);
 	}
 	;

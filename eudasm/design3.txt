@@ -1,0 +1,39 @@
+Original bytecode:
+
+00  fdef sort void(var[], var)
+01      *local0_1 = 0
+02  
+03  loopstart0:
+04      local0_4 = phi(local0_1, local0_line31)
+05      *local1_5 = less *local0_4, *arg1_0
+06      jz *local1_5, loopend0
+07  
+08      *local2_8 = 0
+09  
+10  loopstart1:
+11      local2_11 = phi(local2_8, local2_27)
+12      *local3_12 = less *local2_11, *local0_4
+13      jz *local3_12, loopend1
+14  
+15      local4_15 = getptr arg0_0, *local2_11
+16      *local5_16 = add *local2_11, 1
+17      local6_17 = getptr arg0, *local5_16
+18      *local7_18 = greater *local4_15, *local6_17
+19      jz *local7_19, ifskip0
+20  
+21      local8_21 = getptr arg0, *local2_11
+22      *local9_22 = add *local2_11, 1
+23      local10_23 = getptr arg0, *local9_22
+24      call swap, local8_21, local10_23
+25  
+26  ifskip0:
+27      *local_2_27 = add *local2_11, 1
+28      jmp loopstart1
+29  
+30  loopend1:
+31      *local0_31 = add *local0_4, 1
+32      jmp loopstart0
+33  
+34  loopend0:
+35      ret
+

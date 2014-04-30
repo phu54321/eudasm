@@ -38,7 +38,7 @@
 #line 1 "eudc.y"
 
 #include "ast.h"
-typedef node YYSTYPE;
+typedef AST* YYSTYPE;
 #define YYSTYPE_IS_DECLARED 1
 #define YY_NO_UNISTD_H
 

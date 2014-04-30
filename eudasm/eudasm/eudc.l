@@ -8,6 +8,8 @@ void yyerror(char *);
 #define YY_NO_UNISTD_H
 #define YY_NEVER_INTERACTIVE 1
 
+int charpos = 0;
+#define YY_USER_ACTION { charpos += yyleng; }
 %}
 
 
@@ -29,11 +31,13 @@ void yyerror(char *);
 
 
 	/* Ignore blank line & comments */
-<INITIAL>[ \t\r\n]*	;
+<INITIAL>[ \t\r]*	;
+<INITIAL>\n	{ charpos = 0; /* reset position. */ }
+
 
 	/* Ignore comment */
-\/\/.*	{}
-\/\*	{ BEGIN STATE_LC; }
+<INITIAL>\/\/.*	{}
+<INITIAL>\/\*	{ BEGIN STATE_LC; }
 <STATE_LC>\*	{ BEGIN STATE_LC2; }
 <STATE_LC>[^\*]	{ }
 <STATE_LC2>\/	{ BEGIN 0; }
@@ -41,6 +45,11 @@ void yyerror(char *);
 <STATE_LC2>[^\*]*	{ BEGIN STATE_LC; }
 
 
+	/* String */
+<INITIAL>\"([^\"]|\\.)*\"	{
+	yylval = makenode("string", yytext, yylineno, charpos - yyleng + 1);
+	return STRING;
+}
 
 	/* Read all known keywords
 	 LE GE EQ NE AND OR ADDMOV SUBMOV
@@ -79,46 +88,15 @@ yield		{ return YIELD; }
 
 	/* Read identifiers */
 [_a-zA-Z]([_0-9a-zA-Z])*	{
-		yylval = makenode("name", yytext);
+		yylval = makenode("name", yytext, yylineno, charpos - yyleng + 1);
 		return NAME;
 	}
 
+	/* read numbers. */
 0|([1-9][0-9]*)|(0x[0-9a-zA-Z]+)|(0[0-7]+)	{
-		yylval = makenode("integer", yytext);
+		yylval = makenode("integer", yytext, yylineno, charpos - yyleng + 1);
 		return INTEGER;
 	}
-
-
-	/* String */
-<INITIAL>\"   {
-	BEGIN STATE_STRING;
-}
-
-<STATE_STRING>[^\\\n\"]+	{
-	yymore();
-}
-
-<STATE_STRING><<EOF>>	{
-	yyerror("EOF in string.");
-	BEGIN 0;
-}
-
-<STATE_STRING>\n	{
-	yyerror("Unterminated string.");
-	BEGIN 0;
-}
-
-<STATE_STRING>\\\n	{
-	// Ignore
-}
-
-<STATE_STRING>\"	{
-	yytext[yyleng-1] = '\0';
-	BEGIN 0;
-	yylval = makenode("string", yytext);
-	return STRING;
-}
-
 
 	/* anything else will just pass by. */
 .	{ return *yytext; }

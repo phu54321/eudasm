@@ -1,0 +1,252 @@
+[ original code ]
+void sort(var[] a, var n) {
+    var i, j;
+    for(i = 0 ; i < n ; i++) {
+        for(j = 0 ; j < i ; j++) {
+            if(a[j] > a[j+1]) {
+                swap(&a[j], &a[j+1])
+            }
+        }
+    }
+}
+
+
+
+->
+
+[AST]
+(func sort void (list ( (array var) a ) (var n) )
+    (vardef var i j)
+    (assign i 0)
+    (loop
+        (ifnot (< i n) (break))
+        (assign j 0)
+        (loop
+            (ifnot (< j i) (break))
+            (if ( > ( getitem a j ) ( getitem a (+ j 1) ) )
+                (call swap ( ref (getitem a j) ) ( ref (getitem a (+ j 1)) ) )
+            )
+            (inc j)
+        )
+        (inc i)
+    )
+)
+
+
+
+->
+
+[Three address code]
+
+fdef sort void(var[], var)
+    *local0 = 0
+
+loopstart0:
+    *local1 = less *local0, *arg1
+    jz *local1, loopend0
+
+    *local2 = 0
+
+loopstart1:
+    *local3 = less *local2, *local0
+    jz *local3, loopend1
+
+    local4 = getptr arg0, *local2
+    *local5 = add *local2, 1
+    local6 = getptr arg0, *local5
+    *local7 = greater *local4, *local6
+    jz *local7, ifskip0
+
+    local8 = getptr arg0, *local2
+    *local9 = add *local2, 1
+    local10 = getptr arg0, *local9
+    *swap.arg0 = local8
+    *swap.arg1 = local10
+    call swap
+
+ifskip0:
+    *local2 = add *local2, 1
+    jmp loopstart1
+
+loopend1:
+    *local0 = add *local0, 1
+    jmp loopstart0
+
+loopend0:
+    ret
+
+
+->
+
+
+
+
+[SSA form]
+
+ 1. Flow graph
+
+          fdef sort void(var[], var)
+              *local0 = 0
+         
+--------> loopstart0:
+|             *local1 = less *local0, *arg1
+| |---------- jz *local1, loopend0
+| |      
+| |           *local2 = 0
+| |      
+| | ----> loopstart1:
+| | |         *local3 = less *local2, *local0
+| | | |------ jz *local3, loopend1
+| | | |   
+| | | |       local4 = getptr arg0, *local2
+| | | |       *local5 = add *local2, 1
+| | | |       local6 = getptr arg0, *local5
+| | | |       *local7 = greater *local4, *local6
+| | | | |---- jz *local7, ifskip0
+| | | | | 
+| | | | |     local8 = getptr arg0, *local2
+| | | | |     *local9 = add *local2, 1
+| | | | |     local10 = getptr arg0, *local9
+| | | | |     call swap, local8, local10
+| | | | | 
+| | | | > ifskip0:
+| | | |       *local2 = add *local2, 1
+| | |-+------ jmp loopstart1
+| |   |
+| |   --> loopend1:
+| |           *local0 = add *local0, 1
+|-+---------- jmp loopstart0
+  |
+  ------> loopend0:
+              ret
+
+
+
+
+                     
+
+ 2. Dominant frontier
+
+------------------------------------------------------------+ 25 29 +
+  00            fdef sort void(var[], var)                  |  .  . |
+  01                *local0 = 0                             |  .  . |
+  02                                                        |  .  . |
+  03  --------> loopstart0:                                 |  .  . |
+  04  |             *local1 = less *local0, *arg1           |  .  * |
+  05  | |---------- jz *local1, loopend0                    |  .  . |
+  06  | |                                                   |  .  . |
+  07  | |           *local2 = 0                             |  .  . |
+  08  | |                                                   |  .  . |
+  09  | | ----> loopstart1:                                 |  .  . |
+  10  | | |         *local3 = less *local2, *local0         |  *  . |
+  11  | | | |------ jz *local3, loopend1                    |  .  . |
+  12  | | | |                                               |  .  . |
+  13  | | | |       local4 = getptr arg0, *local2           |  .  . |
+  14  | | | |       *local5 = add *local2, 1                |  .  . |
+  15  | | | |       local6 = getptr arg0, *local5           |  .  . |
+  16  | | | |       *local7 = greater *local4, *local6      |  .  . |
+  17  | | | | |---- jz *local7, ifskip0                     |  .  . |
+  18  | | | | |                                             |  .  . |
+  19  | | | | |     local8 = getptr arg0, *local2           |  .  . |
+  20  | | | | |     *local9 = add *local2, 1                |  .  . |
+  21  | | | | |     local10 = getptr arg0, *local9          |  .  . |
+  22  | | | | |     call swap, local8, local10              |  .  . |
+  23  | | | | |                                             |  .  . |
+  24  | | | | > ifskip0:                                    |  .  . |
+* 25  | | | |       *local2 = add *local2, 1                |  .  . |
+  26  | | |-+------ jmp loopstart1                          |  O  . |
+  27  | |   |                                               |  .  . |
+  28  | |   --> loopend1:                                   |  .  . |
+* 29  | |           *local0 = add *local0, 1                |  .  . |
+  30  |-+---------- jmp loopstart0                          |  .  O |
+  31    |                                                   |  .  . |
+  32    ------> loopend0:                                   |  .  . |
+  33                ret                                     |  .  . |
+------------------------------------------------------------+-------+
+
+
+
+ 3. SSA form
+
+
+00  fdef sort void(var[], var)
+01      *local0_1 = 0
+02  
+03  loopstart0:
+04      local0_4 = phi local0_1, local0_line31
+05      *local1_5 = less *local0_4, *arg1_0
+06      jz *local1_5, loopend0
+07  
+08      *local2_8 = 0
+09  
+10  loopstart1:
+11      local2_11 = phi local2_8, local2_27
+12      *local3_12 = less *local2_11, *local0_4
+13      jz *local3_12, loopend1
+14  
+15      local4_15 = getptr arg0_0, *local2_11
+16      *local5_16 = add *local2_11, 1
+17      local6_17 = getptr arg0_0, *local5_16
+18      *local7_18 = greater *local4_15, *local6_17
+19      jz *local7_19, ifskip0
+20  
+21      local8_21 = getptr arg0_0, *local2_11
+22      *local9_22 = add *local2_11, 1
+23      local10_23 = getptr arg0_0, *local9_22
+24      call swap, local8_21, local10_23
+25  
+26  ifskip0:
+27      *local_2_27 = add *local2_11, 1
+28      jmp loopstart1
+29  
+30  loopend1:
+31      *local0_31 = add *local0_4, 1
+32      jmp loopstart0
+33  
+34  loopend0:
+35      ret
+
+
+
+Needed operators :
+  copy
+  add     : OP_ADD
+  sub     : OP_SUB
+  eq      : OP_EQ
+  neq     : OP_NEQ
+  leq     : OP_LEQ
+  geq     : OP_GEQ
+  not     : OP_NOT
+  and     : OP_AND
+  or      : OP_OR
+  jz      : OP_JZ
+  jmp     : OP_JMP
+  call    : OP_CALL
+  getptr  : OP_GETPTR
+  phi     : OP_PHI
+
+  op_call has variadic arguments -> can be problem
+   -> solve it with copy * call operator.
+
+
+  ->
+
+  lvalue = rvalue
+  lvalue = add rvalue, rvalue
+  lvalue = sub rvalue, rvalue
+  lvalue = eq rvalue, rvalue
+  lvalue = neq rvalue, rvalue
+  lvalue = leq rvalue, rvalue
+  lvalue = geq rvalue, rvalue
+  lvaule = not rvalue
+  lvalue = and rvalue, rvalue
+  lvalue = or rvalur, rvalue
+  lvalue = getptr rvalue, rvalue
+  lvalue = getptr rvalue, rvalue
+  lvalue = call rvalue, rvalue1, rvalue2, rvalue3, ...
+  jz label
+  jmp label
+
+
+rvalue := name | *name | number
+lvalue := name | *name

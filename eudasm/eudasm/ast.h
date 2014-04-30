@@ -1,23 +1,31 @@
 #pragma once
 
+#include <vector>
 #include <string>
 #include <memory>
 
-struct nodeimpl;
-typedef const nodeimpl* node;
 
-struct nodeimpl {
-	nodeimpl(const char* type, const std::string& str);
-	nodeimpl(const char* type, node left, node right);
-	~nodeimpl();
-
-	const char* const type;
-	const std::string* const str;
-	node left;
-	node right;
+enum class ASTType {
+	AST_FDEF_STATEMENT,
+	AST_FBODY,
+	AST_FUNC_ARGLIST,
+	AST_FUNC_ARGDEF,
+	AST_FUNC_TYPE,
+	AST_FUNC_NAME,
+	AST_PLUS,
+	AST_MINUS,
 };
 
-node makenode();
-node makenode(const char* type, const std::string& str);
-node makenode(const char* type, node left, node right);
+class AST {
+public:
+	AST(ASTType type);
+	~AST();
 
+	virtual bool IsTerminal() const;
+	void push_back(AST* ast);
+	AST* operator[](int index);
+
+private:
+	std::vector<AST*> _subnodes;
+	int value;
+};

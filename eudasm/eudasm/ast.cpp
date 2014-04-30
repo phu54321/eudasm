@@ -2,20 +2,23 @@
 
 #include "ast.h"
 
+#define AST_CREATE_DEBUG
+
+#ifdef AST_CREATE_DEBUG
 extern int yylineno;
 
-void printline(node n) {
+void printline(AST* n) {
 	printf("( %s ", n->type);
-	if(n->str) printf("%s ", n->str->c_str());
+	if(n->str) printf("%s %d %d ", n->str->c_str(), n->line, n->col);
 	if(n->left) { printline(n->left); putchar(' '); }
 	if(n->right) { printline(n->right); putchar(' '); }
 	printf(")");
 }
 
-void print(node n, int tabcount) {
+void print(AST* n, int tabcount) {
 	printf("%*c\"%s\"\n", 2 * (tabcount + 1), ' ', n->type);
 	if(n->str) {
-		printf("%*c\"%s\"\n", 2 * (tabcount + 1) + 2, ' ', n->str->c_str());
+		printf("%*c\"%s\" %d %d\n", 2 * (tabcount + 1) + 2, ' ', n->str->c_str(), n->line, n->col);
 	}
 	if(n->left) {
 		printf("%*c[LEFT]\n", 2 * (tabcount + 1) + 2, ' ');
@@ -26,37 +29,38 @@ void print(node n, int tabcount) {
 		print(n->right, tabcount + 2);
 	}
 }
+#endif
 
 
-nodeimpl::nodeimpl(const char* type, const std::string& str) :
-	type(type), str(new std::string(str)), left(NULL), right(NULL) {}
-nodeimpl::nodeimpl(const char* type, node left, node right) :
-	type(type), str(NULL), left(left), right(right) {}
+AST::AST(const char* type, const std::string& str, int line, int col) :
+	type(type), str(new std::string(str)), left(NULL), right(NULL), line(line), col(col) {}
+AST::AST(const char* type, AST* left, AST* right) :
+	type(type), str(NULL), left(left), right(right), line(-1), col(-1) {}
 
-nodeimpl::~nodeimpl() {
+AST::~AST() {
 	delete str;
 	delete left;
 	delete right;
 }
 
-node makenode(const char* type, const std::string& str) {
-	node n = node(new nodeimpl(type, str));
+AST* makenode(const char* type, const std::string& str, int line, int col) {
+	AST* n = new AST(type, str, line, col);
+#ifdef AST_CREATE_DEBUG
 	printf("%3d ", yylineno);
 	printline(n);
 	putchar('\n');
+#endif
 	return n;
 }
 
-node makenode(const char* type, node left, node right) {
-	node n = node(new nodeimpl(type, left, right));
+AST* makenode(const char* type, AST* left, AST* right) {
+	AST* n = new AST(type, left, right);
+#ifdef AST_CREATE_DEBUG
 	printf("%3d ", yylineno);
 	printline(n);
 	putchar('\n');
+#endif
 	return n;
 }
 
 
-void CompileAST(node ast) {
-	printf("Final output:\n");
-	print(ast, 0);
-}

@@ -2,15 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="eudc.tab.hpp" />
-    <ClInclude Include="symbol.hpp" />
+    <ClInclude Include="murmurhash3.h" />
+    <ClInclude Include="type.h" />
+    <ClInclude Include="operation.h" />
+    <ClInclude Include="gc.h" />
+    <ClInclude Include="variable.h" />
     <ClInclude Include="ast.h" />
-    <ClInclude Include="stringview.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="eudc.tab.cpp" />
     <ClCompile Include="lex.yy.cpp" />
-    <ClCompile Include="symbol.cpp" />
+    <ClCompile Include="murmurhash3.cpp" />
+    <ClCompile Include="type.cpp" />
     <ClCompile Include="ast.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -18,6 +22,6 @@
     <CustomBuild Include="eudc.y" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="design.txt" />
+    <Text Include="abidesign.txt" />
   </ItemGroup>
 </Project>
