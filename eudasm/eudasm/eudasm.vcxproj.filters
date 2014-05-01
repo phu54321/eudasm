@@ -7,7 +7,7 @@
     <ClInclude Include="operation.h" />
     <ClInclude Include="gc.h" />
     <ClInclude Include="variable.h" />
-    <ClInclude Include="ast.h" />
+    <ClInclude Include="program.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -15,7 +15,6 @@
     <ClCompile Include="lex.yy.cpp" />
     <ClCompile Include="murmurhash3.cpp" />
     <ClCompile Include="type.cpp" />
-    <ClCompile Include="ast.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="eudc.l" />

@@ -9,12 +9,6 @@ extern int yylineno;
 extern AST* mainast;
 %}
 
-%union {
-	ParsedName* name;
-	ParsedNumber* num;
-	ParsedString* string;
-}
-
 %token <name> NAME 
 %token <num> INTEGER
 %token <string> STRING

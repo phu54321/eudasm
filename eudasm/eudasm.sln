@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eudasm", "eudasm\eudasm.vcxproj", "{C09E6A61-9D74-4D24-95B1-10C6870CF920}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eudc-parser", "eudasm\eudasm.vcxproj", "{C09E6A61-9D74-4D24-95B1-10C6870CF920}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eudc-assembler", "eudc-assembler\eudc-assembler.vcxproj", "{DF87F270-D1D9-44C2-8D19-035250C243A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{C09E6A61-9D74-4D24-95B1-10C6870CF920}.Debug|Win32.Build.0 = Debug|Win32
 		{C09E6A61-9D74-4D24-95B1-10C6870CF920}.Release|Win32.ActiveCfg = Release|Win32
 		{C09E6A61-9D74-4D24-95B1-10C6870CF920}.Release|Win32.Build.0 = Release|Win32
+		{DF87F270-D1D9-44C2-8D19-035250C243A1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DF87F270-D1D9-44C2-8D19-035250C243A1}.Debug|Win32.Build.0 = Debug|Win32
+		{DF87F270-D1D9-44C2-8D19-035250C243A1}.Release|Win32.ActiveCfg = Release|Win32
+		{DF87F270-D1D9-44C2-8D19-035250C243A1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
