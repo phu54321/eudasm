@@ -5,7 +5,7 @@
 
 class CType_Struct : public CType {
 public:
-	CType_Struct(std::vector<CTypePtr> typelist);
+	CType_Struct(const std::vector<CTypePtr>& typelist);
 	virtual ~CType_Struct();
 
 	virtual CTypeType GetType() const { return CTypeType::TYPE_STRUCT; }

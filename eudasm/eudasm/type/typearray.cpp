@@ -18,7 +18,7 @@ CType_Array::CType_Array(CTypePtr orig, size_t cnt) : _orig(orig), _cnt(cnt) {
 
 	// calculate hash
 	uint32_t hashvalue = 0x03707344;
-	for(int i = 0 ; i < cnt ; i++) {
+	for(uint32_t i = 0 ; i < cnt ; i++) {
 		hashvalue = CombineInteger(hashvalue, orig->GetHash());
 	}
 	SetHash(hashvalue);

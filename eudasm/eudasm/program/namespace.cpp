@@ -1,7 +1,11 @@
 #include "namespace.h"
 #include "../util.h"
+#include "../murmurhash3.h"
 
-Namespace::Namespace() {
+Namespace::StringRef::StringRef(int id, const char* str) : value(new std::string(str)), id(id) { }
+
+
+Namespace::Namespace() : _totalvariablenum(0) {
 	_variabletablelist.push_back(nullptr);
 }
 
@@ -11,6 +15,12 @@ Namespace::~Namespace() {
 	}
 }
 
+
+Namespace::MM3HashVal Namespace::CalculateMM3Hash(const char* str) const {
+	MM3HashVal v;
+	MurmurHash3_x86_128(str,strlen(str), 0x00000000, &v);
+	return v;
+}
 
 Namespace::LabelRef Namespace::GetLabel(const char* name) {
 	MM3HashVal hash = CalculateMM3Hash(name);
@@ -49,12 +59,12 @@ Namespace::VariableRef Namespace::GetVariable(const char* name) {
 	}
 
 	char errorstring[512];
-	sprintf(errorstring, "Variable name %s not found on scope level %d.", name, _variabletablelist.size());
+	snprintf(errorstring, 512, "Variable name %s not found on scope level %d.", name, _variabletablelist.size());
 	throw ParserException(errorstring);
 }
 
 
-void Namespace::PushBlock(const char* blockname) {
+void Namespace::PushBlock() {
 	// pushes nullptr instead of new VariableTable
 	// Most of the blocks don't really define new variables, so most of the blocks will be empty.
 	// Initalizing new tables for every occuring blocks isn't optimal.
@@ -63,7 +73,7 @@ void Namespace::PushBlock(const char* blockname) {
 }
 
 void Namespace::PopBlock() {
-	runtime_assert(_variabletablelist.size() > 1, "No more available scope.");
+	runtime_assert(_variabletablelist.size() > 1);
 	VariableTable* ptr = _variabletablelist.back();
 	_variabletablelist.pop_back();
 	delete ptr;
@@ -77,7 +87,7 @@ void Namespace::CreateVariable(const char* name, CTypePtr type) {
 		auto it2 = lastvt->find(hash);
 		if(it2 != lastvt->end()) {
 			char errorstring[512];
-			sprintf(errorstring, "Variable name %s duplicated on scope level %d.", name, _variabletablelist.size());
+			snprintf(errorstring, 512, "Variable name %s duplicated on scope level %d.", name, _variabletablelist.size());
 			throw ParserException(errorstring);
 		}
 	}
@@ -93,47 +103,7 @@ void Namespace::CreateVariable(const char* name, CTypePtr type) {
 	lastvt->insert(std::make_pair(hash, vref));
 }
 
-/*
-class Namespace {
-public:
-	Namespace();
-	~Namespace();
 
-	int GetLabel(const char* name);
-	int GetString(const char* content);
-	int GetVariable(const char* name);
-	
-	int PushBlock();
-	int CreateVariable(const char* name, CTypePtr type);
-	int PopBlock();
-
-private:
-	struct MM3HashVal {
-		uint64_t data[2];
-	};
-
-	MM3HashVal CalculateMM3Hash(const char* str);
-
-
-	typedef int LabelRef;
-
-	struct StringRef {
-		int id;
-		std::string value;
-	};
-
-	struct VariableRef {
-		CTypePtr type;
-		int id;
-	};
-
-	typedef std::map<MM3HashVal, LabelRef> LabelTable;
-	typedef std::map<MM3HashVal, StringRef> StringTable;
-	typedef std::map<MM3HashVal, VariableRef> VariableTable;
-	typedef std::deque<VariableTable> VariableTableList;
-
-	LabelTable _labeltable;
-	StringTable _stringtable;
-	VariableTableList _variabletablelist;
-};
-*/
+size_t Namespace::GetNewVariableID() {
+	return _totalvariablenum++;
+}

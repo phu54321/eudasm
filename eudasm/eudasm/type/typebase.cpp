@@ -33,4 +33,5 @@ uint32_t CType::GetHash() const {
 
 std::ostream& operator<<(std::ostream& os, const CType& type) {
 	type.EmitStringRepr(os);
+	return os;
 }

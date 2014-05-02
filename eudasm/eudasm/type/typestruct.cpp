@@ -4,7 +4,7 @@
 
 #include <numeric>
 
-CType_Struct::CType_Struct(std::vector<CTypePtr> typelist) : _typelist(typelist) {
+CType_Struct::CType_Struct(const std::vector<CTypePtr>& typelist) : _typelist(typelist) {
 	for(auto type : _typelist) {
 		if(!type->IsInstantiable()) {
 			throw ParserException("Struct cannot have noninstantiable typed variable in it.");

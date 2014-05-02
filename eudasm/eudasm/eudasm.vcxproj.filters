@@ -1,26 +1,92 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="eudc.tab.hpp" />
     <ClInclude Include="murmurhash3.h" />
-    <ClInclude Include="type.h" />
-    <ClInclude Include="operation.h" />
-    <ClInclude Include="gc.h" />
-    <ClInclude Include="variable.h" />
-    <ClInclude Include="program.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="program\namespace.h">
+      <Filter>program</Filter>
+    </ClInclude>
+    <ClInclude Include="program\operation.h">
+      <Filter>program</Filter>
+    </ClInclude>
+    <ClInclude Include="program\program.h">
+      <Filter>program</Filter>
+    </ClInclude>
+    <ClInclude Include="type\typearray.h">
+      <Filter>type\typedef</Filter>
+    </ClInclude>
+    <ClInclude Include="type\typeref.h">
+      <Filter>type\typedef</Filter>
+    </ClInclude>
+    <ClInclude Include="type\typestruct.h">
+      <Filter>type\typedef</Filter>
+    </ClInclude>
+    <ClInclude Include="type\typevar.h">
+      <Filter>type\typedef</Filter>
+    </ClInclude>
+    <ClInclude Include="type\typevoid.h">
+      <Filter>type\typedef</Filter>
+    </ClInclude>
+    <ClInclude Include="type\type.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="type\typeutil.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="type\typebase.h">
+      <Filter>type\typedef</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="eudc.tab.cpp" />
-    <ClCompile Include="lex.yy.cpp" />
     <ClCompile Include="murmurhash3.cpp" />
-    <ClCompile Include="type.cpp" />
+    <ClCompile Include="util.cpp" />
+    <ClCompile Include="program\namespace.cpp">
+      <Filter>program</Filter>
+    </ClCompile>
+    <ClCompile Include="type\typearray.cpp">
+      <Filter>type\typeimpl</Filter>
+    </ClCompile>
+    <ClCompile Include="type\typeref.cpp">
+      <Filter>type\typeimpl</Filter>
+    </ClCompile>
+    <ClCompile Include="type\typestruct.cpp">
+      <Filter>type\typeimpl</Filter>
+    </ClCompile>
+    <ClCompile Include="type\typevar.cpp">
+      <Filter>type\typeimpl</Filter>
+    </ClCompile>
+    <ClCompile Include="type\typevoid.cpp">
+      <Filter>type\typeimpl</Filter>
+    </ClCompile>
+    <ClCompile Include="type\typeutil.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="type\typebase.cpp">
+      <Filter>type\typeimpl</Filter>
+    </ClCompile>
+    <ClCompile Include="test\test_type.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="eudc.l" />
-    <CustomBuild Include="eudc.y" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="abidesign.txt" />
+    <Filter Include="type">
+      <UniqueIdentifier>{6657cf96-a4b6-407b-b8b7-dae3fa15f058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ast">
+      <UniqueIdentifier>{e080f7a1-f6fa-44d4-83e9-32aaf318d09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="type\typedef">
+      <UniqueIdentifier>{bd998f47-adc6-44c0-b092-61b70e4b9e84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="type\typeimpl">
+      <UniqueIdentifier>{6f00e1a2-a72d-4416-bbd3-35834105b6b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program">
+      <UniqueIdentifier>{39d62ea2-3bda-4585-b108-1fc25122933f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{28680835-075c-4813-9c39-8cc53f238cf1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

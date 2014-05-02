@@ -14,7 +14,7 @@ public:
 	struct StringRef {
 		StringRef(int id, const char* str);
 		int id;
-		const std::unique_ptr<std::string> value;
+		const std::shared_ptr<const std::string> value;
 	};
 
 	struct VariableRef {
@@ -29,19 +29,21 @@ public:
 	StringRef GetString(const char* content);
 	VariableRef GetVariable(const char* name);
 	
-	void PushBlock(const char* blockname);
+	void PushBlock();
 	void CreateVariable(const char* name, CTypePtr type);
 	void PopBlock();
 
-private:
+public:
 	struct MM3HashVal {
 		uint64_t data[2];
+		bool operator<(const MM3HashVal& rhs) const {
+			return data[0] < rhs.data[0] || data[1] < rhs.data[1];
+		}
 	};
 
-	MM3HashVal CalculateMM3Hash(const char* str);
+	MM3HashVal CalculateMM3Hash(const char* str) const;
 
-	size_t GetNewVariableID();
-
+private:
 	typedef std::map<MM3HashVal, LabelRef> LabelTable;
 	typedef std::map<MM3HashVal, StringRef> StringTable;
 	typedef std::map<MM3HashVal, VariableRef> VariableTable;
@@ -51,5 +53,11 @@ private:
 	StringTable _stringtable;
 	VariableTableList _variabletablelist;
 
+private:
+	size_t GetNewVariableID();
 	size_t _totalvariablenum;
 };
+
+namespace std {
+
+}

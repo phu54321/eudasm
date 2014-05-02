@@ -79,36 +79,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="eudc.tab.hpp" />
-    <ClInclude Include="gc.h" />
     <ClInclude Include="murmurhash3.h" />
-    <ClInclude Include="operation.h" />
-    <ClInclude Include="program.h" />
-    <ClInclude Include="type.h" />
-    <ClInclude Include="variable.h" />
+    <ClInclude Include="program\program.h" />
+    <ClInclude Include="program\namespace.h" />
+    <ClInclude Include="program\operation.h" />
+    <ClInclude Include="type\type.h" />
+    <ClInclude Include="type\typearray.h" />
+    <ClInclude Include="type\typebase.h" />
+    <ClInclude Include="type\typeref.h" />
+    <ClInclude Include="type\typestruct.h" />
+    <ClInclude Include="type\typeutil.h" />
+    <ClInclude Include="type\typevar.h" />
+    <ClInclude Include="type\typevoid.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="eudc.tab.cpp" />
-    <ClCompile Include="lex.yy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="murmurhash3.cpp" />
-    <ClCompile Include="type.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="eudc.l">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">flex -olex.yy.cpp eudc.l</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">lex.yy.cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">eudc.tab.hpp</AdditionalInputs>
-    </CustomBuild>
-    <CustomBuild Include="eudc.y">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">bison -oeudc.tab.cpp -d -v eudc.y</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">eudc.tab.hpp;eudc.tab.cpp</Outputs>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="abidesign.txt" />
+    <ClCompile Include="program\namespace.cpp" />
+    <ClCompile Include="test\test_type.cpp" />
+    <ClCompile Include="type\typearray.cpp" />
+    <ClCompile Include="type\typebase.cpp" />
+    <ClCompile Include="type\typeref.cpp" />
+    <ClCompile Include="type\typestruct.cpp" />
+    <ClCompile Include="type\typeutil.cpp" />
+    <ClCompile Include="type\typevar.cpp" />
+    <ClCompile Include="type\typevoid.cpp" />
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
